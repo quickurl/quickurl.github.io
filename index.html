@@ -5,33 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Швидкий Обмін Посиланнями</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <div class="container">
-        <h1>Швидкий Обмін Посиланнями</h1>
+    <main class="main-container">
+        <header class="main-header">
+            <h1>Швидкий Обмін Посиланнями</h1>
+            <p>Простий інструмент для вчителів та учнів</p>
+        </header>
 
-        <div class="card">
-            <h2>Поділитися посиланням</h2>
-            <p>Вставте посилання, щоб отримати короткий код.</p>
-            <input type="url" id="url-input" placeholder="https://example.com/long-url...">
-            <button id="create-btn">Створити код</button>
-            <div class="result" id="code-display"></div>
+        <div class="split-container">
+            <section class="split-panel create-panel">
+                <h2>Поділитися посиланням</h2>
+                <input type="url" id="url-input" placeholder="Вставте довге посилання сюди...">
+                <button id="create-btn">Отримати код</button>
+                <div class="result-area" id="code-display-area">
+                    </div>
+            </section>
+
+            <section class="split-panel retrieve-panel">
+                <h2>Отримати посилання</h2>
+                <input type="text" id="code-input" placeholder="Введіть 4-значний код" maxlength="4" inputmode="numeric" pattern="\d*">
+                <button id="retrieve-btn">Перейти</button>
+                <div class="result-area" id="link-display-area">
+                    </div>
+            </section>
         </div>
-
-        <div class="card">
-            <h2>Отримати посилання</h2>
-            <p>Введіть код, щоб перейти за посиланням.</p>
-            <input type="text" id="code-input" placeholder="Введіть 4-значний код" maxlength="4">
-            <button id="retrieve-btn">Отримати посилання</button>
-            <div class="result" id="link-display"></div>
-        </div>
-
-    </div>
+    </main>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-
     <script src="app.js"></script>
 
 </body>
