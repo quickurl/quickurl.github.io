@@ -1,142 +1,170 @@
-/* Глобальні налаштування та змінні */
 :root {
-    --primary-color: #0d6efd;
-    --primary-color-dark: #0a58ca;
-    --background-color: #f8f9fa;
-    --card-background: #ffffff;
-    --text-color: #212529;
-    --muted-text-color: #6c757d;
-    --border-color: #dee2e6;
-    --accent-background: #e9ecef;
+    --primary-color: #007aff;
+    --background-color: #f4f4f9;
+    --container-bg: #ffffff;
+    --text-primary: #1c1c1e;
+    --text-secondary: #8a8a8e;
+    --border-color: #e5e5ea;
+    --accent-bg: #f2f2f7;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: 'Inter', sans-serif;
     background-color: var(--background-color);
+    color: var(--text-primary);
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    margin: 0;
-    color: var(--text-color);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    padding: 20px;
 }
 
-.container {
-    max-width: 550px;
+.main-container {
     width: 100%;
-    padding: 20px;
+    max-width: 900px;
+    text-align: center;
+}
+
+.main-header {
+    margin-bottom: 30px;
+}
+
+.main-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.main-header p {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-top: 5px;
+}
+
+.split-container {
+    display: flex;
+    background: var(--container-bg);
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+
+.split-panel {
+    flex: 1 1 50%;
+    padding: 40px;
     display: flex;
     flex-direction: column;
-    gap: 25px; /* Простір між картками */
 }
 
-h1 {
-    text-align: center;
-    color: var(--text-color);
-    margin-bottom: 10px;
-    font-size: 2.5rem;
+.create-panel {
+    border-right: 1px solid var(--border-color);
 }
 
-.card {
-    background-color: var(--card-background);
-    padding: 32px;
-    border-radius: 16px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
-    border: 1px solid var(--border-color);
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-}
-
-h2 {
-    margin-top: 0;
+.split-panel h2 {
     font-size: 1.5rem;
     font-weight: 600;
-}
-
-p {
-    color: var(--muted-text-color);
-    font-size: 1rem;
     margin-bottom: 20px;
-    line-height: 1.5;
 }
 
 input[type="url"], input[type="text"] {
     width: 100%;
-    padding: 14px 16px;
+    padding: 12px 16px;
     border: 1px solid var(--border-color);
-    border-radius: 10px;
+    border-radius: 12px;
     font-size: 1rem;
-    box-sizing: border-box;
     margin-bottom: 20px;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    transition: all 0.2s ease;
 }
 
 input[type="url"]:focus, input[type="text"]:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.2);
+    box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.15);
 }
 
 button {
     width: 100%;
-    padding: 14px;
+    padding: 12px;
+    background-color: var(--primary-color);
     color: #fff;
     border: none;
-    border-radius: 10px;
-    font-size: 1.1rem;
+    border-radius: 12px;
+    font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    background-image: linear-gradient(45deg, var(--primary-color), var(--primary-color-dark));
-    box-shadow: 0 4px 10px rgba(13, 110, 253, 0.3);
+    transition: all 0.2s ease;
 }
 
 button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(13, 110, 253, 0.4);
+    transform: scale(1.02);
+    filter: brightness(1.05);
 }
 
-.result {
-    margin-top: 20px;
-    padding: 16px;
-    background-color: var(--accent-background);
-    border-radius: 10px;
-    text-align: center;
-    min-height: 50px;
+.result-area {
+    margin-top: auto; /* Притискає результат до низу */
+    padding-top: 20px;
+    min-height: 120px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-/* === СТИЛІ ДЛЯ ВЕЛИКОГО КОДУ === */
-#code-display {
-    font-size: 1.5rem; /* Розмір тексту "Ваш код:" */
-    font-weight: 500;
-    color: var(--muted-text-color);
-    padding: 20px;
-}
-
-/* Окремо стилізуємо сам номер коду, щоб зробити його гігантським */
-#code-display .generated-code {
-    display: block;
-    font-size: 4rem; /* ОСНОВНА ЗМІНА: РОЗМІР КОДУ */
+.generated-code {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 4.5rem;
     font-weight: 700;
-    color: var(--text-color);
-    letter-spacing: 4px; /* Простір між цифрами */
-    margin-top: 10px;
-    font-family: 'Roboto Mono', monospace; /* Моноширинний шрифт для цифр */
+    color: var(--text-primary);
+    letter-spacing: 5px;
 }
 
-#link-display a {
+.copy-btn {
+    background: var(--accent-bg);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    margin-top: 15px;
+    padding: 8px 16px;
+    width: auto;
+    font-weight: 500;
+}
+.copy-btn:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+#link-display-area a {
     color: var(--primary-color);
     text-decoration: none;
     font-weight: 600;
     word-break: break-all;
-    transition: color 0.2s;
+    font-size: 1.1rem;
 }
 
-#link-display a:hover {
-    color: var(--primary-color-dark);
-    text-decoration: underline;
+/* Адаптивність для мобільних */
+@media (max-width: 768px) {
+    body {
+        align-items: flex-start;
+    }
+    .main-header h1 {
+        font-size: 2rem;
+    }
+    .split-container {
+        flex-direction: column;
+    }
+    .create-panel {
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+    }
+    .split-panel {
+        padding: 30px;
+    }
+    .generated-code {
+        font-size: 3.5rem;
+    }
 }
