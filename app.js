@@ -2,7 +2,7 @@
 const firebaseConfig = {
   apiKey: "AIzaSyBr6rsSZMA39-1Xd_ZJ56_U-x3NR0ENSBw",
   authDomain: "quickurl-f7d8b.firebaseapp.com",
-  databaseURL: "https://your-project-id-default-rtdb.firebaseio.com",
+  databaseURL: "https://quickurl-f7d8b-default-rtdb.europe-west1.firebasedatabase.app/",
   projectId: "quickurl-f7d8b",
   storageBucket: "quickurl-f7d8b.firebasestorage.app",
   messagingSenderId: "1077891912101",
