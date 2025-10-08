@@ -21,16 +21,20 @@
         <div class="split-container">
             <section class="split-panel create-panel">
                 <h2><i class="fa-solid fa-wand-magic-sparkles"></i> Створити код</h2>
-                <input type="url" id="url-input" placeholder="Вставте довге посилання сюди...">
-                <button id="create-btn"><i class="fa-solid fa-paper-plane"></i> Надіслати</button>
+                <div id="create-form">
+                    <input type="url" id="url-input" placeholder="Вставте довге посилання сюди...">
+                    <button id="create-btn"><i class="fa-solid fa-paper-plane"></i> Надіслати</button>
+                </div>
                 <div class="result-area" id="code-display-area">
                     </div>
             </section>
 
             <section class="split-panel retrieve-panel">
                 <h2><i class="fa-solid fa-keyboard"></i> Ввести код</h2>
-                <input type="text" id="code-input" placeholder="Введіть 4-значний код" maxlength="4" inputmode="numeric" pattern="\d*">
-                <button id="retrieve-btn"><i class="fa-solid fa-arrow-right-to-bracket"></i> Перейти</button>
+                <div id="retrieve-form">
+                    <input type="text" id="code-input" placeholder="Введіть 4-значний код" maxlength="4" inputmode="numeric" pattern="\d*">
+                    <button id="retrieve-btn"><i class="fa-solid fa-arrow-right-to-bracket"></i> Перейти</button>
+                </div>
                 <div class="result-area" id="link-display-area">
                     </div>
             </section>
