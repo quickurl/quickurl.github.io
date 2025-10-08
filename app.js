@@ -7,26 +7,24 @@ const firebaseConfig = {
     storageBucket: "quickurl-f7d8b.firebasestorage.app",
     messagingSenderId: "1077891912101",
     appId: "1:1077891912101:web:ba55e1500174f81a09984c"
-  };
-  
+};
+
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// Елементи для створення коду
+// --- Елементи для створення коду ---
 const urlInput = document.getElementById('url-input');
 const createBtn = document.getElementById('create-btn');
-const createForm = document.getElementById('create-form');
 const codeDisplayArea = document.getElementById('code-display-area');
 
-// Елементи для отримання посилання
-const codeInput = document.getElementById('code-input');
-const retrieveBtn = document.getElementById('retrieve-btn');
-const retrieveForm = document.getElementById('retrieve-form');
-const linkDisplayArea = document.getElementById('link-display-area');
+// --- Елементи для отримання посилання ---
+const retrieveInteractiveArea = document.getElementById('retrieve-interactive-area');
 
-function generateCode() {
-    return Math.floor(1000 + Math.random() * 9000).toString();
-}
+// HTML-шаблон для форми вводу коду
+const retrieveFormTemplate = `
+    <input type="text" id="code-input" placeholder="Введіть 4-значний код" maxlength="4" inputmode="numeric" pattern="\\d*">
+    <button id="retrieve-btn" class="retrieve-btn-class"><i class="fa-solid fa-arrow-right-to-bracket"></i> Перейти</button>
+`;
 
 // --- Логіка створення коду ---
 function handleCreate() {
@@ -36,7 +34,7 @@ function handleCreate() {
         return;
     }
 
-    const code = generateCode();
+    const code = Math.floor(1000 + Math.random() * 9000).toString();
     const timestamp = firebase.database.ServerValue.TIMESTAMP;
 
     db.ref('links/' + code).set({ url: longUrl, createdAt: timestamp })
@@ -68,6 +66,7 @@ function handleCreate() {
 
 // --- Логіка отримання посилання ---
 function handleRetrieve() {
+    const codeInput = document.getElementById('code-input');
     const code = codeInput.value.trim();
     if (code.length !== 4) {
         alert('Будь ласка, введіть 4-значний код.');
@@ -79,42 +78,47 @@ function handleRetrieve() {
         if (snapshot.exists()) {
             const data = snapshot.val();
             
-            // 1. Ховаємо форму вводу
-            retrieveForm.classList.add('hidden');
-
-            // 2. Створюємо очевидний результат: велика кнопка-посилання
-            linkDisplayArea.innerHTML = `
+            // Замінюємо вміст контейнера на результат
+            retrieveInteractiveArea.innerHTML = `
                 <a href="${data.url}" target="_blank" rel="noopener noreferrer" class="primary-link-btn">
                     <i class="fa-solid fa-arrow-up-right-from-square"></i> Відкрити посилання
                 </a>
                 <button class="reset-btn" id="reset-btn">Ввести інший код</button>
             `;
 
-            // 3. Додаємо обробник для кнопки скидання
-            document.getElementById('reset-btn').addEventListener('click', () => {
-                retrieveForm.classList.remove('hidden');
-                linkDisplayArea.innerHTML = '';
-                codeInput.value = '';
-                codeInput.focus();
-            });
+            // Додаємо обробник для кнопки скидання
+            document.getElementById('reset-btn').addEventListener('click', renderRetrieveForm);
 
         } else {
-            linkDisplayArea.textContent = 'Код не знайдено або термін його дії закінчився.';
-            setTimeout(() => { linkDisplayArea.textContent = '' }, 3000);
+            alert('Код не знайдено або термін його дії закінчився.');
+            codeInput.focus();
         }
     }).catch(error => {
         console.error("Помилка читання:", error);
-        linkDisplayArea.textContent = 'Помилка. Спробуйте ще раз.';
+        alert('Помилка. Спробуйте ще раз.');
     });
 }
 
-// --- Обробники подій ---
+// Функція для відтворення початкового стану форми отримання
+function renderRetrieveForm() {
+    retrieveInteractiveArea.innerHTML = retrieveFormTemplate;
+    
+    // Оскільки елементи тепер створюються динамічно, ми повинні знаходити їх щоразу заново
+    const codeInput = document.getElementById('code-input');
+    const retrieveBtn = document.getElementById('retrieve-btn');
+    
+    retrieveBtn.addEventListener('click', handleRetrieve);
+    codeInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            retrieveBtn.click();
+        }
+    });
+    codeInput.focus();
+}
 
-// Клік на кнопки
+// --- Ініціалізація обробників подій ---
 createBtn.addEventListener('click', handleCreate);
-retrieveBtn.addEventListener('click', handleRetrieve);
-
-// Натискання Enter в полях вводу
 urlInput.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
         event.preventDefault();
@@ -122,9 +126,5 @@ urlInput.addEventListener('keydown', (event) => {
     }
 });
 
-codeInput.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter') {
-        event.preventDefault();
-        retrieveBtn.click();
-    }
-});
+// Перше відтворення форми отримання при завантаженні сторінки
+document.addEventListener('DOMContentLoaded', renderRetrieveForm);
